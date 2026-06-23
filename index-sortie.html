@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de Sortie d'un Salarié - EBP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 70, 254, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        
+        /* ❄️ ☀️ 🍂 💝 ANIMATIONS SAISONNIÈRES 🌸 🎊 */
+        .seasonal-particle {
+            position: absolute;
+            pointer-events: none;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        
+        .snowflake {
+            color: white;
+            font-size: 20px;
+            opacity: 0.9;
+            animation: fall-improved linear infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            filter: blur(0.5px);
+        }
+        
+        @keyframes fall-improved {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            25% { transform: translateY(25vh) translateX(-30px) rotate(90deg); }
+            50% { transform: translateY(50vh) translateX(20px) rotate(180deg); }
+            75% { transform: translateY(75vh) translateX(-10px) rotate(270deg); }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(110vh) translateX(0) rotate(360deg); opacity: 0; }
+        }
+        
+        .confetti {
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .heart {
+            color: #ff69b4;
+            font-size: 18px;
+            opacity: 0.6;
+            animation: heart-float linear infinite;
+        }
+        
+        @keyframes heart-float {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+        
+        .leaf {
+            font-size: 25px;
+            opacity: 0.8;
+            animation: leaf-fall-improved linear infinite;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+        }
+        
+        @keyframes leaf-fall-improved {
+            0% { 
+                transform: translateY(-10vh) translateX(0) rotateX(0deg) rotateZ(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.8; }
+            20% { 
+                transform: translateY(20vh) translateX(80px) rotateX(120deg) rotateZ(72deg); 
+            }
+            40% { 
+                transform: translateY(40vh) translateX(-60px) rotateX(240deg) rotateZ(144deg); 
+            }
+            60% { 
+                transform: translateY(60vh) translateX(40px) rotateX(360deg) rotateZ(216deg); 
+            }
+            80% { 
+                transform: translateY(80vh) translateX(-30px) rotateX(480deg) rotateZ(288deg); 
+            }
+            90% { opacity: 0.8; }
+            100% { 
+                transform: translateY(110vh) translateX(0) rotateX(720deg) rotateZ(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        /* ☀️ Soleil animé (Juin-Août) */
+        .summer-sun {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #FFD700 0%, #FFA500 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 40px 10px rgba(255, 215, 0, 0.6);
+            animation: sun-pulse 4s ease-in-out infinite;
+        }
+        
+        .summer-sun::before,
+        .summer-sun::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        
+        .summer-sun::before {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            animation: sun-glow 4s ease-in-out infinite;
+        }
+        
+        .summer-sun::after {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+            animation: sun-glow 4s ease-in-out infinite 0.5s;
+        }
+        
+        @keyframes sun-pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 40px 10px rgba(255, 215, 0, 0.6);
+            }
+            50% { 
+                transform: scale(1.1); 
+                box-shadow: 0 0 60px 20px rgba(255, 215, 0, 0.8);
+            }
+        }
+        
+        @keyframes sun-glow {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1); 
+                opacity: 0.5;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2); 
+                opacity: 0.8;
+            }
+        }
+        
+        /* 🦋 Papillons colorés (Été) */
+        /* 🏖️ Plage en bas (Été) */
+        
+        @keyframes wave-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-600px); }
+        }
+        
+        /* Parasol */
+        .beach-umbrella {
+            position: absolute;
+            bottom: 90px;
+            right: 150px;
+            font-size: 50px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
+            animation: umbrella-sway 4s ease-in-out infinite;
+        }
+        
+        @keyframes umbrella-sway {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        
+        /* Étoile de mer */
+        .starfish {
+            position: absolute;
+            bottom: 30px;
+            font-size: 30px;
+            animation: starfish-appear 20s ease-in-out infinite;
+            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3));
+        }
+        
+        @keyframes starfish-appear {
+            0%, 90%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            10%, 80% { opacity: 1; transform: scale(1) rotate(360deg); }
+        }
+        
+        .petal {
+            font-size: 20px;
+            opacity: 0.7;
+            animation: petal-float-improved linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        @keyframes petal-float-improved {
+            0% { 
+                transform: translateY(-10vh) translateX(0) rotateX(0deg) rotateZ(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.7; }
+            25% { 
+                transform: translateY(25vh) translateX(40px) rotateX(180deg) rotateZ(90deg); 
+            }
+            50% { 
+                transform: translateY(50vh) translateX(-30px) rotateX(360deg) rotateZ(180deg); 
+            }
+            75% { 
+                transform: translateY(75vh) translateX(20px) rotateX(540deg) rotateZ(270deg); 
+            }
+            90% { opacity: 0.7; }
+            100% { 
+                transform: translateY(110vh) translateX(-10px) rotateX(720deg) rotateZ(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        /* 🐦 MARS : Hirondelles SVG papier découpé */
+        .hirondelle {
+            position: absolute;
+            pointer-events: none;
+            will-change: left, top;
+        }
+        .hirondelle svg {
+            filter:
+                drop-shadow(2px 4px 3px rgba(0,0,50,0.35))
+                drop-shadow(-1px -1px 2px rgba(255,255,255,0.15));
+            overflow: visible;
+        }
+        /* Battement d'ailes : les deux ailes montent/descendent en alternance */
+        .hirondelle .aile-g {
+            animation: battre-g 0.42s ease-in-out infinite alternate;
+            transform-origin: 44px 13px;
+        }
+        .hirondelle .aile-d {
+            animation: battre-d 0.42s ease-in-out infinite alternate;
+            transform-origin: 46px 13px;
+        }
+        @keyframes battre-g {
+            0%   { transform: scaleY(1); }
+            100% { transform: scaleY(0.35); }
+        }
+        @keyframes battre-d {
+            0%   { transform: scaleY(1); }
+            100% { transform: scaleY(0.35); }
+        }
+
+        /* ✨ EFFETS SPÉCIAUX RARES */
+        
+        /* Étoile filante (apparaît occasionnellement) */
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            animation: shooting 2s ease-out;
+        }
+        
+        @keyframes shooting {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(300px) translateY(200px);
+                opacity: 0;
+            }
+        }
+        
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-80px) translateY(1px);
+        }
+        
+        /* Particule dorée scintillante */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: gold;
+            border-radius: 50%;
+            animation: sparkle-twinkle 2s ease-in-out infinite;
+            box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.6);
+        }
+        
+        @keyframes sparkle-twinkle {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0.5); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.5); 
+            }
+        }
+        
+        /* Aurore boréale (fond subtil) */
+        .aurora {
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            top: 0;
+            left: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(0, 255, 150, 0.1) 25%, 
+                rgba(100, 150, 255, 0.1) 50%, 
+                rgba(150, 0, 255, 0.1) 75%, 
+                transparent 100%);
+            animation: aurora-wave 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes aurora-wave {
+            0%, 100% { 
+                transform: translateX(-100%) skewX(0deg); 
+                opacity: 0.3; 
+            }
+            50% { 
+                transform: translateX(100%) skewX(10deg); 
+                opacity: 0.6; 
+            }
+        }
+
+        /* 🎄 DÉCEMBRE : Noël joyeux */
+        .noel-particle {
+            font-size: 22px;
+            opacity: 0.9;
+            animation: noel-fall linear infinite;
+            filter: drop-shadow(0 2px 6px rgba(255,100,0,0.4));
+        }
+        @keyframes noel-fall {
+            0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.9; }
+            30%  { transform: translateY(30vh) translateX(25px) rotate(60deg); }
+            60%  { transform: translateY(60vh) translateX(-20px) rotate(180deg); }
+            90%  { opacity: 0.9; }
+            100% { transform: translateY(110vh) translateX(10px) rotate(360deg); opacity: 0; }
+        }
+        .guirlande {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse 800px 300px at 20% 0%, rgba(255,60,60,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 600px 250px at 80% 5%, rgba(50,180,50,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 400px 200px at 50% 2%, rgba(255,215,0,0.10) 0%, transparent 60%);
+            pointer-events: none;
+            animation: guirlande-pulse 6s ease-in-out infinite;
+        }
+        @keyframes guirlande-pulse {
+            0%, 100% { opacity: 0.7; }
+            50%      { opacity: 1; }
+        }
+
+        /* ⛷️ FÉVRIER : Ski */
+        /* ⛷️ Skieur qui dévale la pente en diagonale */
+        .skier {
+            position: absolute;
+            font-size: 32px;
+            pointer-events: none;
+            animation: ski-descent linear infinite;
+            filter: drop-shadow(2px 3px 5px rgba(0,80,160,0.3));
+            transform-origin: center center;
+        }
+        @keyframes ski-descent {
+            0%   {
+                transform: translate(-80px, -60px) rotate(15deg) scaleX(1);
+                opacity: 0;
+            }
+            5%   { opacity: 1; }
+            /* Virage à droite */
+            20%  { transform: translate(calc(var(--vx)*0.2), calc(var(--vy)*0.2)) rotate(20deg) scaleX(1); }
+            /* Virage à gauche */
+            40%  { transform: translate(calc(var(--vx)*0.4), calc(var(--vy)*0.4)) rotate(5deg) scaleX(-1); }
+            /* Virage à droite */
+            60%  { transform: translate(calc(var(--vx)*0.6), calc(var(--vy)*0.6)) rotate(22deg) scaleX(1); }
+            /* Virage à gauche */
+            80%  { transform: translate(calc(var(--vx)*0.8), calc(var(--vy)*0.8)) rotate(8deg) scaleX(-1); }
+            95%  { opacity: 1; }
+            100% { transform: translate(var(--vx), var(--vy)) rotate(15deg) scaleX(1); opacity: 0; }
+        }
+
+        /* Trace de neige derrière le skieur */
+        .ski-trail {
+            position: absolute;
+            pointer-events: none;
+            animation: trail-fade linear forwards;
+            font-size: 12px;
+            opacity: 0.5;
+        }
+        @keyframes trail-fade {
+            0%   { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.3); }
+        }
+
+        /* Flocons légers en arrière-plan pour le février */
+        .snow-bg {
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: snow-drift linear infinite;
+        }
+        @keyframes snow-drift {
+            0%   { transform: translateY(-5vh) translateX(0); opacity: 0; }
+            10%  { opacity: 0.6; }
+            50%  { transform: translateY(50vh) translateX(15px); }
+            90%  { opacity: 0.5; }
+            100% { transform: translateY(108vh) translateX(-10px); opacity: 0; }
+        }
+
+
+        /* 🔔 AVRIL : Pâques */
+        .paques-particle {
+            font-size: 22px;
+            opacity: 0.88;
+            animation: paques-swing linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+        }
+        @keyframes paques-swing {
+            0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.88; }
+            25%  { transform: translateY(25vh) translateX(30px) rotate(20deg); }
+            50%  { transform: translateY(50vh) translateX(-25px) rotate(-15deg); }
+            75%  { transform: translateY(75vh) translateX(20px) rotate(10deg); }
+            90%  { opacity: 0.88; }
+            100% { transform: translateY(110vh) translateX(-10px) rotate(0deg); opacity: 0; }
+        }
+
+        /* 🌿 MAI : Muguet */
+        .muguet-particle {
+            font-size: 20px;
+            opacity: 0.85;
+            animation: muguet-float linear infinite;
+            filter: drop-shadow(0 2px 3px rgba(0,80,0,0.2));
+        }
+        @keyframes muguet-float {
+            0%   { transform: translateY(-10vh) translateX(0) rotate(0deg) scale(1); opacity: 0; }
+            10%  { opacity: 0.85; }
+            30%  { transform: translateY(30vh) translateX(20px) rotate(15deg) scale(1.05); }
+            60%  { transform: translateY(60vh) translateX(-15px) rotate(-10deg) scale(0.95); }
+            90%  { opacity: 0.85; }
+            100% { transform: translateY(110vh) translateX(5px) rotate(5deg) scale(1); opacity: 0; }
+        }
+
+        /* 📚 SEPTEMBRE : Rentrée scolaire */
+        .rentree-particle {
+            font-size: 22px;
+            opacity: 0.88;
+            animation: rentree-fall linear infinite;
+            filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.2));
+        }
+        @keyframes rentree-fall {
+            0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.88; }
+            30%  { transform: translateY(30vh) translateX(35px) rotate(30deg); }
+            60%  { transform: translateY(60vh) translateX(-25px) rotate(-20deg); }
+            90%  { opacity: 0.88; }
+            100% { transform: translateY(110vh) translateX(10px) rotate(10deg); opacity: 0; }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #0046fe 0%, #0036cc 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            background: transparent;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .header svg {
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .form-body {
+            padding: 40px;
+            background: white;
+        }
+
+        .section {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0046fe;
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0046fe;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.2s;
+            font-family: inherit;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #0046fe;
+            box-shadow: 0 0 0 4px rgba(0, 70, 254, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Checkbox et Radio stylisés */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #0046fe;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .checkbox-item.with-dates {
+            display: grid;
+            grid-template-columns: auto 1fr auto 150px auto 150px;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkbox-item.with-dates input[type="date"] {
+            padding: 8px 12px;
+        }
+
+        .checkbox-item.with-dates span {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        /* Boutons */
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .btn {
+            padding: 14px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #0046fe 0%, #0036cc 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 70, 254, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 70, 254, 0.5);
+        }
+
+        .btn-reset {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-reset:hover {
+            background: #e5e7eb;
+        }
+
+        /* Overlay de succès */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-overlay.active {
+            display: flex;
+        }
+
+        .success-content {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 500px;
+            animation: scaleIn 0.5s;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .success-content h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .success-content p {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .success-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-grid, .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .checkbox-item.with-dates {
+                grid-template-columns: auto 1fr;
+            }
+            .checkbox-item.with-dates input[type="date"],
+            .checkbox-item.with-dates span:not(:first-of-type) {
+                grid-column: 2;
+            }
+        }
+
+        /* Styles pour l'impression/export */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .bg-animation {
+                display: none;
+            }
+            .card {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .form-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <svg width="180" height="75" viewBox="0 0 702.9949722 289.4713444" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white" d="M0,289.4713444h194.7649612v-45.0899963c-48.6039886,1.7230072-125.056694,2.3680115-125.3830948,2.1529999v-39.1689911c36.1051025-.8610077,74.1680984-2.9060059,116.0391006-6.1360016v-35.07901c-4.2429962.9690094-78.7369995,6.6740112-116.0391006,7.2120056v-38.6309967c55.4580994-2.5839996,78.955101-4.4130096,125.4921036-10.0110016v-42.8501968c-61.0050049,7.7498932-100.112999,11.8400955-194.7651872,11.4310989v196.1591034h-.1087828v.0109863Z"/>
+                    <path fill="white" d="M679.7259903,34.6378521c-15.8390503-19.2348995-43.0890503-34.6378521-78.9000244-34.6378521-49.3770142,0-104.6390076,19.9237522-133.2160034,29.3743519v260.0959854h69.1640015v-67.46698l63.8339844-3.2290039c28.7080078-1.9380035,57.5570068-12.0130005,77.4540405-34.9290009,18.5910034-21.5169983,24.8239746-47.5540009,24.9329834-74.4530029,0-21.3014984-3.3400269-49.5886993-23.2689819-74.7544975ZM536.7739639,158.1953587v-85.2384033c15.0449829-5.4788055,33.0269775-9.2461014,50.6719971-9.1277008,24.1820068-.1184006,45.5690308,12.0554962,45.5690308,39.3420944,0,31.7639999-21.8550415,48.7919998-50.6820068,51.041008l-45.5700073,3.9830017h.0109863Z"/>
+                    <path fill="white" d="M394.9599686,160.3453526c-5.0039978,0-12.1839905.322998-17.9389954,1.076004,43.9379883-6.7810059,62.9639893-33.0340118,62.8549805-69.9426041,0-18.2876968-12.2919922-61.9779015-67.8589783-47.2423019-39.2590027,11.4096031-95.9140015,25.5962982-153.6560059,34.2074051v211.0134811l134.5209961-.4309998c80.0429993,0,96.8940125-42.6139832,96.8940125-78.3389893s-20.006012-50.4599915-54.6970215-50.4599915l-.1080017.1069946-.0109863.0110016ZM286.3289566,109.4433522c2.3930054-.538002,48.9309998-10.0100021,55.4580078-11.0865021,6.2000122-.9687958,22.2890015-3.3367996,30.230011,3.4445038,3.9169922,3.4440002,6.3099976,9.3639984,6.09198,16.7910004-.4349976,15.4889908-12.9449768,22.8089981-37.5189819,26.8989944-18.8089905,3.1220093-37.8460083,6.1350098-54.2610168,8.503006v-44.5510025ZM333.1929703,239.3303532c-18.1669922.8609924-46.9840088,1.7220001-46.875,1.8300018v-48.9649963s42.6319885-4.1980133,50.2359924-4.8440094c10.4429932-.7529907,17.07901-1.5059967,25.1180115-.5379944,11.6399841,1.2919922,17.5140076,10.548996,17.9490051,19.5800018,1.414978,24.5299988-25.2260132,31.9570007-46.4390259,33.0339966v-.1080017l.0110168.0110016Z"/>
+                </svg>
+                <h1>📋 Demande de Sortie d'un Salarié</h1>
+                <p>Renseignez les informations de sortie du salarié</p>
+            </div>
+
+            <form id="sortieForm">
+                <div class="form-body">
+                    <!-- SECTION: SOCIÉTÉ -->
+                    <div class="section">
+                        <div class="section-header">🏢 Société</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nom de la société</label>
+                                <input type="text" name="societe">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: RUPTURE DU CONTRAT DE TRAVAIL -->
+                    <div class="section">
+                        <div class="section-header">📄 Rupture du Contrat de Travail</div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Matricule</label>
+                                <input type="text" name="matricule">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" style="text-transform: uppercase;">
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="prenom" id="prenom" oninput="capitalizePrenom(this)">
+                            </div>
+                        </div>
+
+                        <div class="form-grid" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label>Date de notification de la rupture de contrat</label>
+                                <input type="date" name="date_notification">
+                            </div>
+                        </div>
+
+                        <div class="form-grid" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label>Motif de fin d'emploi</label>
+                                <select name="motif_fin_emploi" id="motif_fin_emploi" onchange="toggleMotifFinEmploiAutre()">
+                                    <option value="">-- Sélectionner --</option>
+                                    <option value="fin_contrat">Fin de contrat de travail</option>
+                                    <option value="demission">Démission</option>
+                                    <option value="licenciement">Licenciement</option>
+                                    <option value="depart_retraite">Départ volontaire à la retraite</option>
+                                    <option value="mise_retraite">Mise à la retraite à l'initiative de l'employeur</option>
+                                    <option value="rupture_conv">Rupture conventionnelle</option>
+                                    <option value="autre">Autre (précisez)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="motif_fin_emploi_autre_group" style="display: none;">
+                                <label>Précisez le motif de fin d'emploi</label>
+                                <input type="text" name="motif_fin_emploi_autre" id="motif_fin_emploi_autre" placeholder="Précisez...">
+                            </div>
+                        </div>
+
+                        <div class="form-grid" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label>Motif de la rupture</label>
+                                <select name="motif_rupture" id="motif_rupture" onchange="toggleMotifRuptureAutre()">
+                                    <option value="">-- Sélectionner --</option>
+                                    <option value="fin_cdd">Fin de contrat à durée déterminée ou fin d'accueil occasionnel</option>
+                                    <option value="fin_pe_employeur">Fin de période d'essai à l'initiative de l'employeur</option>
+                                    <option value="fin_pe_employe">Fin de période d'essai à l'initiative de l'employé</option>
+                                    <option value="rupture_cdd_employeur">Rupture anticipée d'un CDD ou contrat d'apprentissage à l'initiative de l'employeur</option>
+                                    <option value="rupture_cdd_employe">Rupture anticipée d'un CDD ou contrat d'apprentissage à l'initiative de l'employé</option>
+                                    <option value="demission">Démission</option>
+                                    <option value="depart_retraite_salarie">Départ à la retraite à l'initiative du salarié</option>
+                                    <option value="rupture_conv">Rupture conventionnelle</option>
+                                    <option value="fin_apprentissage">Fin de contrat d'apprentissage</option>
+                                    <option value="lic_faute_grave">Licenciement pour faute grave</option>
+                                    <option value="lic_faute_lourde">Licenciement pour faute lourde</option>
+                                    <option value="lic_inaptitude_non_pro">Licenciement pour inaptitude d'origine non professionnelle</option>
+                                    <option value="lic_inaptitude_pro">Licenciement pour inaptitude d'origine professionnelle</option>
+                                    <option value="lic_liquidation">Licenciement suite à liquidation judiciaire</option>
+                                    <option value="lic_economique">Licenciement économique</option>
+                                    <option value="lic_autre">Licenciement pour autre motif</option>
+                                    <option value="autre">Autre (précisez)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="motif_rupture_autre_group" style="display: none;">
+                                <label>Précisez le motif de la rupture</label>
+                                <input type="text" name="motif_rupture_autre" id="motif_rupture_autre" placeholder="Précisez...">
+                            </div>
+                        </div>
+
+                        <div class="form-grid" id="date_signature_rupture_conv_group" style="display: none; margin-top: 20px;">
+                            <div class="form-group">
+                                <label>Date signature convention rupture conventionnelle</label>
+                                <input type="date" name="date_signature_rupture_conv">
+                            </div>
+                        </div>
+
+
+                        <div class="form-grid" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label>Date de fin de contrat</label>
+                                <input type="date" name="fin_contrat">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION: PRÉAVIS -->
+                    <div class="section">
+                        <div class="section-header">⏱️ Préavis</div>
+                        
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="radio" name="preavis_type" id="preavis_non_applicable" value="non_applicable">
+                                <label for="preavis_non_applicable">Pas de clause de préavis applicable</label>
+                            </div>
+                            
+                            <div class="checkbox-item with-dates">
+                                <input type="radio" name="preavis_type" id="preavis_effectue_paye" value="effectue_paye">
+                                <label for="preavis_effectue_paye">Effectué et payé</label>
+                                <span>Du</span>
+                                <input type="date" name="preavis_effectue_du" disabled>
+                                <span>Au</span>
+                                <input type="date" name="preavis_effectue_au" disabled>
+                            </div>
+                            
+                            <div class="checkbox-item with-dates">
+                                <input type="radio" name="preavis_type" id="preavis_non_effectue_paye" value="non_effectue_paye">
+                                <label for="preavis_non_effectue_paye">Non effectué et payé</label>
+                                <span>Du</span>
+                                <input type="date" name="preavis_non_effectue_paye_du" disabled>
+                                <span>Au</span>
+                                <input type="date" name="preavis_non_effectue_paye_au" disabled>
+                            </div>
+                            
+                            <div class="checkbox-item with-dates">
+                                <input type="radio" name="preavis_type" id="preavis_non_effectue_non_paye" value="non_effectue_non_paye">
+                                <label for="preavis_non_effectue_non_paye">Non effectué et non payé</label>
+                                <span>Du</span>
+                                <input type="date" name="preavis_non_effectue_non_paye_du" disabled>
+                                <span>Au</span>
+                                <input type="date" name="preavis_non_effectue_non_paye_au" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- SECTION: COMMENTAIRES -->
+                    <div class="section">
+                        <div class="section-header">💬 Vos Commentaires</div>
+                        <div class="form-group full-width">
+                            <textarea name="commentaires" placeholder="Informations complémentaires, observations particulières..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Bannière erreur validation -->
+                    <div id="banniere_erreur_sortie" style="display:none;margin-bottom:16px;padding:16px 20px;background:#fff1f1;border:1.5px solid #fca5a5;border-radius:12px;color:#991b1b;">
+                        <div style="font-size:15px;font-weight:700;margin-bottom:8px;">🚫 Merci de renseigner les informations suivantes :</div>
+                        <ul id="banniere_erreur_sortie_liste" style="margin:0 0 0 20px;padding:0;font-size:14px;line-height:1.8;"></ul>
+                    </div>
+
+                    <!-- Pièce jointe document de sortie -->
+                    <div style="margin-bottom:20px;">
+                        <label style="color:#374151;font-weight:600;font-size:14px;margin-bottom:8px;display:block;">📎 Joindre un document <span style="font-weight:400;color:#6b7280;">(optionnel — lettre de démission, rupture conventionnelle… PDF, image)</span></label>
+                        <div id="dropzone_sortie" onclick="document.getElementById('fichier_sortie').click()" style="border:2px dashed #d1d5db;border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;background:#f9fafb;">
+                            <div style="font-size:28px;margin-bottom:6px;">📄</div>
+                            <div style="font-size:14px;color:#6b7280;">Glissez votre fichier ici ou cliquez pour le choisir</div>
+                            <div style="font-size:12px;color:#9ca3af;margin-top:4px;">PDF, JPG, PNG — max 10 Mo</div>
+                        </div>
+                        <input type="file" id="fichier_sortie" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="chargerFichierSortie(this)">
+                        <div id="fichier_sortie_info" style="display:none;margin-top:10px;padding:10px 14px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;align-items:center;gap:10px;">
+                            <span style="font-size:20px;">📄</span>
+                            <span id="fichier_sortie_nom" style="font-size:14px;font-weight:600;color:#166534;flex:1;"></span>
+                            <span id="fichier_sortie_poids" style="font-size:12px;color:#4ade80;"></span>
+                            <button type="button" onclick="supprimerFichierSortie()" style="background:none;border:none;cursor:pointer;font-size:16px;color:#ef4444;padding:0 4px;" title="Supprimer">✕</button>
+                        </div>
+                        <div id="fichier_sortie_erreur" style="display:none;margin-top:8px;padding:8px 12px;background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;font-size:13px;color:#991b1b;"></div>
+                    </div>
+
+                    <!-- BOUTONS -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-reset" onclick="resetForm()">Réinitialiser</button>
+                        <button type="submit" class="btn btn-submit">📄 Télécharger le fichier à envoyer à votre gestionnaire</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Overlay de succès -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-content">
+            <div class="success-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2>Document généré ! 🎉</h2>
+            <p style="margin-bottom:16px;line-height:1.6;">
+                Le document a été généré avec succès dans le dossier <strong>Téléchargements</strong> sous le nom<br>
+                <span style="display:inline-block;background:#f3f4f6;padding:6px 12px;border-radius:8px;font-size:13px;font-family:monospace;color:#374151;margin-top:8px;" id="success-filename"></span>
+            </p>
+            <p style="margin-bottom:20px;line-height:1.6;">
+                Envoyez-le par email à votre gestionnaire à l'adresse habituelle :<br>
+                <span style="display:inline-flex;align-items:center;gap:10px;margin-top:8px;">
+                    <strong>contact.productionpaye@ebp.com</strong>
+                    <button type="button" onclick="copierEmail(this)" style="padding:4px 10px;font-size:12px;font-weight:600;border:1.5px solid #d1d5db;border-radius:6px;background:white;cursor:pointer;color:#374151;transition:all 0.2s;" title="Copier l'adresse email">📋 Copier</button>
+                </span>
+            </p>
+            <div style="display:flex;justify-content:center;">
+                <button class="btn btn-reset" onclick="closeSuccess()">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        // Gestion des dates de préavis - activer/désactiver selon la sélection
+        document.querySelectorAll('input[name="preavis_type"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Désactiver tous les champs de date
+                document.querySelectorAll('.checkbox-item.with-dates input[type="date"]').forEach(input => {
+                    input.disabled = true;
+                    input.value = '';
+                });
+                
+                // Activer les champs correspondants à la sélection
+                if (this.value === 'effectue_paye') {
+                    document.querySelector('input[name="preavis_effectue_du"]').disabled = false;
+                    document.querySelector('input[name="preavis_effectue_au"]').disabled = false;
+                } else if (this.value === 'non_effectue_paye') {
+                    document.querySelector('input[name="preavis_non_effectue_paye_du"]').disabled = false;
+                    document.querySelector('input[name="preavis_non_effectue_paye_au"]').disabled = false;
+                } else if (this.value === 'non_effectue_non_paye') {
+                    document.querySelector('input[name="preavis_non_effectue_non_paye_du"]').disabled = false;
+                    document.querySelector('input[name="preavis_non_effectue_non_paye_au"]').disabled = false;
+                }
+            });
+        });
+
+        // Afficher/masquer le champ "autre" pour motif de fin d'emploi
+        function toggleMotifFinEmploiAutre() {
+            const select = document.getElementById('motif_fin_emploi');
+            const autreGroup = document.getElementById('motif_fin_emploi_autre_group');
+            const autreInput = document.getElementById('motif_fin_emploi_autre');
+            
+            if (select.value === 'autre') {
+                autreGroup.style.display = 'flex';
+            } else {
+                autreGroup.style.display = 'none';
+                autreInput.value = '';
+            }
+
+            checkDateSignatureVisibility();
+        }
+
+        // Capitaliser le prénom : gère les prénoms composés (Jean-Luc, Marie Pierre)
+        function capitalizePrenom(input) {
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const result = input.value.replace(/([^\s\-]+)/g, function(word) {
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            });
+            if (input.value !== result) {
+                input.value = result;
+                input.setSelectionRange(start, end);
+            }
+        }
+
+        // Afficher/masquer le champ "autre" pour motif de la rupture
+        function toggleMotifRuptureAutre() {
+            const select = document.getElementById('motif_rupture');
+            const autreGroup = document.getElementById('motif_rupture_autre_group');
+            const autreInput = document.getElementById('motif_rupture_autre');
+            
+            if (select.value === 'autre') {
+                autreGroup.style.display = 'flex';
+            } else {
+                autreGroup.style.display = 'none';
+                autreInput.value = '';
+            }
+
+            checkDateSignatureVisibility();
+        }
+
+        // Afficher la date signature uniquement si les DEUX motifs sont "rupture_conv"
+        function checkDateSignatureVisibility() {
+            const motifFinEmploi = document.getElementById('motif_fin_emploi').value;
+            const motifRupture = document.getElementById('motif_rupture').value;
+            const dateSignatureGroup = document.getElementById('date_signature_rupture_conv_group');
+
+            if (motifFinEmploi === 'rupture_conv' && motifRupture === 'rupture_conv') {
+                dateSignatureGroup.style.display = 'grid';
+            } else {
+                dateSignatureGroup.style.display = 'none';
+                dateSignatureGroup.querySelector('input[type="date"]').value = '';
+            }
+        }
+
+        // Bloquer la touche Entrée (sauf textarea)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Soumission du formulaire
+        document.getElementById('sortieForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateAndDownloadHTML();
+        });
+
+        function generateAndDownloadHTML() {
+            // Validation cohérence dates uniquement
+            const manquants = [];
+            const dateNotif = document.querySelector('input[name="date_notification"]');
+            const finContrat = document.querySelector('input[name="fin_contrat"]');
+            if (dateNotif && dateNotif.value && finContrat && finContrat.value) {
+                if (new Date(finContrat.value) < new Date(dateNotif.value)) {
+                    manquants.push('La date de fin de contrat ne peut pas être antérieure à la date de notification');
+                }
+            }
+
+            if (manquants.length > 0) {
+                const banniere = document.getElementById('banniere_erreur_sortie');
+                const liste = document.getElementById('banniere_erreur_sortie_liste');
+                liste.innerHTML = manquants.map(m => `<li><strong>${m}</strong></li>`).join('');
+                banniere.style.display = 'block';
+                banniere.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            document.getElementById('banniere_erreur_sortie').style.display = 'none';
+
+            const form = document.getElementById('sortieForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Récupérer les données du formulaire
+
+            // Formater les dates pour l'affichage
+            const formatDate = (dateStr) => {
+                if (!dateStr) return '';
+                const d = new Date(dateStr);
+                return d.toLocaleDateString('fr-FR');
+            };
+
+            // Mapper les valeurs des selects
+            const motifFinEmploiMap = {
+                'fin_contrat': 'Fin de contrat de travail',
+                'demission': 'Démission',
+                'licenciement': 'Licenciement',
+                'depart_retraite': 'Départ volontaire à la retraite',
+                'mise_retraite': 'Mise à la retraite à l\'initiative de l\'employeur',
+                'rupture_conv': 'Rupture conventionnelle',
+                'autre': 'Autre'
+            };
+
+            const motifRuptureMap = {
+                'fin_cdd': 'Fin de contrat à durée déterminée ou fin d\'accueil occasionnel',
+                'fin_pe_employeur': 'Fin de période d\'essai à l\'initiative de l\'employeur',
+                'fin_pe_employe': 'Fin de période d\'essai à l\'initiative de l\'employé',
+                'rupture_cdd_employeur': 'Rupture anticipée d\'un CDD ou contrat d\'apprentissage à l\'initiative de l\'employeur',
+                'rupture_cdd_employe': 'Rupture anticipée d\'un CDD ou contrat d\'apprentissage à l\'initiative de l\'employé',
+                'demission': 'Démission',
+                'depart_retraite_salarie': 'Départ à la retraite à l\'initiative du salarié',
+                'rupture_conv': 'Rupture conventionnelle',
+                'fin_apprentissage': 'Fin de contrat d\'apprentissage',
+                'lic_faute_grave': 'Licenciement pour faute grave',
+                'lic_faute_lourde': 'Licenciement pour faute lourde',
+                'lic_inaptitude_non_pro': 'Licenciement pour inaptitude d\'origine non professionnelle',
+                'lic_inaptitude_pro': 'Licenciement pour inaptitude d\'origine professionnelle',
+                'lic_liquidation': 'Licenciement suite à liquidation judiciaire',
+                'lic_economique': 'Licenciement économique',
+                'lic_autre': 'Licenciement pour autre motif',
+                'autre': 'Autre'
+            };
+
+            // Obtenir les valeurs des motifs (avec gestion du "autre")
+            let motifFinEmploiValue = motifFinEmploiMap[data.motif_fin_emploi] || '-';
+            if (data.motif_fin_emploi === 'autre' && data.motif_fin_emploi_autre) {
+                motifFinEmploiValue = data.motif_fin_emploi_autre;
+            }
+
+            let motifRuptureValue = motifRuptureMap[data.motif_rupture] || '-';
+            if (data.motif_rupture === 'autre' && data.motif_rupture_autre) {
+                motifRuptureValue = data.motif_rupture_autre;
+            }
+
+            const preavisTypeMap = {
+                'non_applicable': 'Pas de clause de préavis applicable',
+                'effectue_paye': 'Effectué et payé',
+                'non_effectue_paye': 'Non effectué et payé',
+                'non_effectue_non_paye': 'Non effectué et non payé'
+            };
+
+            // Déterminer les dates de préavis selon le type
+            let preavisDates = '';
+            if (data.preavis_type === 'effectue_paye' && data.preavis_effectue_du) {
+                preavisDates = `Du ${formatDate(data.preavis_effectue_du)} au ${formatDate(data.preavis_effectue_au)}`;
+            } else if (data.preavis_type === 'non_effectue_paye' && data.preavis_non_effectue_paye_du) {
+                preavisDates = `Du ${formatDate(data.preavis_non_effectue_paye_du)} au ${formatDate(data.preavis_non_effectue_paye_au)}`;
+            } else if (data.preavis_type === 'non_effectue_non_paye' && data.preavis_non_effectue_non_paye_du) {
+                preavisDates = `Du ${formatDate(data.preavis_non_effectue_non_paye_du)} au ${formatDate(data.preavis_non_effectue_non_paye_au)}`;
+            }
+
+            // Générer le HTML de sortie
+            const outputHTML = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de Sortie - ${data.nom || ''} ${data.prenom || ''}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Manrope', sans-serif; background: #0f172a; min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); overflow: hidden; position: relative; z-index: 1; }
+        .header { background: linear-gradient(135deg, #0046fe 0%, #0036cc 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 24px; font-weight: 800; margin-bottom: 5px; }
+        .header p { opacity: 0.9; font-size: 14px; }
+        .content { padding: 30px; }
+        .section { background: #f9fafb; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #0046fe; }
+        .section-title { font-size: 16px; font-weight: 700; color: #0046fe; margin-bottom: 15px; }
+        .row { display: flex; margin-bottom: 10px; }
+        .label { font-weight: 600; color: #6b7280; width: 250px; flex-shrink: 0; }
+        .value { color: #111827; }
+        .checkbox-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .checkbox { width: 16px; height: 16px; border: 2px solid #d1d5db; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
+        .checkbox.checked { background: #0046fe; border-color: #0046fe; }
+        .checkbox.checked::after { content: '✓'; color: white; font-size: 12px; }
+        .footer { text-align: center; padding: 20px; color: #9ca3af; font-size: 12px; border-top: 1px solid #e5e7eb; }
+
+        /* ── ANIMATIONS SAISONNIÈRES ── */
+        .bg-animation { position:fixed;width:100%;height:100%;top:0;left:0;z-index:0;overflow:hidden; }
+        .bg-animation::before { content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(0,70,254,0.3) 0%,transparent 70%);border-radius:50%;top:-250px;right:-250px;animation:float 20s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-30px)} }
+        .seasonal-particle { position:absolute;pointer-events:none;animation-timing-function:linear;animation-iteration-count:infinite; }
+        .snowflake { color:white;font-size:20px;opacity:.9;animation:fall-improved linear infinite;text-shadow:0 0 10px rgba(255,255,255,.8);filter:blur(.5px); }
+        @keyframes fall-improved { 0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0} 10%{opacity:.9} 25%{transform:translateY(25vh) translateX(-30px) rotate(90deg)} 50%{transform:translateY(50vh) translateX(20px) rotate(180deg)} 75%{transform:translateY(75vh) translateX(-10px) rotate(270deg)} 90%{opacity:.9} 100%{transform:translateY(110vh) translateX(0) rotate(360deg);opacity:0} }
+        .leaf { font-size:25px;opacity:.8;animation:leaf-fall-improved linear infinite;filter:drop-shadow(2px 2px 3px rgba(0,0,0,.3)); }
+        @keyframes leaf-fall-improved { 0%{transform:translateY(-10vh) translateX(0) rotateX(0deg) rotateZ(0deg);opacity:0} 10%{opacity:.8} 20%{transform:translateY(20vh) translateX(80px) rotateX(120deg) rotateZ(72deg)} 40%{transform:translateY(40vh) translateX(-60px) rotateX(240deg) rotateZ(144deg)} 60%{transform:translateY(60vh) translateX(40px) rotateX(360deg) rotateZ(216deg)} 80%{transform:translateY(80vh) translateX(-30px) rotateX(480deg) rotateZ(288deg)} 90%{opacity:.8} 100%{transform:translateY(110vh) translateX(0) rotateX(720deg) rotateZ(360deg);opacity:0} }
+        .summer-sun { position:absolute;top:50px;right:100px;width:80px;height:80px;background:radial-gradient(circle,#FFD700 0%,#FFA500 100%);border-radius:50%;box-shadow:0 0 40px 10px rgba(255,215,0,.6);animation:sun-pulse 4s ease-in-out infinite; }
+        .summer-sun::before { content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;width:100px;height:100px;background:radial-gradient(circle,rgba(255,215,0,.3) 0%,transparent 70%);animation:sun-glow 4s ease-in-out infinite; }
+        .summer-sun::after { content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;width:120px;height:120px;background:radial-gradient(circle,rgba(255,215,0,.2) 0%,transparent 70%);animation:sun-glow 4s ease-in-out infinite .5s; }
+        @keyframes sun-pulse { 0%,100%{transform:scale(1);box-shadow:0 0 40px 10px rgba(255,215,0,.6)} 50%{transform:scale(1.1);box-shadow:0 0 60px 20px rgba(255,215,0,.8)} }
+        @keyframes sun-glow { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5} 50%{transform:translate(-50%,-50%) scale(1.2);opacity:.8} }
+        .petal { font-size:20px;opacity:.7;animation:petal-fall linear infinite;filter:drop-shadow(1px 2px 3px rgba(0,0,0,.2)); }
+        @keyframes petal-fall { 0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0} 10%{opacity:.7} 30%{transform:translateY(30vh) translateX(40px) rotate(120deg)} 60%{transform:translateY(60vh) translateX(-30px) rotate(240deg)} 90%{opacity:.7} 100%{transform:translateY(110vh) translateX(20px) rotate(360deg);opacity:0} }
+        .hirondelle { position:absolute;pointer-events:none; }
+        .shooting-star { position:absolute;width:120px;height:2px;background:linear-gradient(90deg,white,transparent);border-radius:2px;animation:shoot 1.5s ease-out forwards;transform:rotate(-30deg); }
+        @keyframes shoot { 0%{transform:rotate(-30deg) translateX(0);opacity:1} 100%{transform:rotate(-30deg) translateX(400px);opacity:0} }
+        .noel-particle { font-size:22px;opacity:.9;animation:noel-fall linear infinite;filter:drop-shadow(0 2px 6px rgba(255,100,0,.4)); }
+        @keyframes noel-fall { 0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0} 10%{opacity:.9} 30%{transform:translateY(30vh) translateX(25px) rotate(60deg)} 60%{transform:translateY(60vh) translateX(-20px) rotate(180deg)} 90%{opacity:.9} 100%{transform:translateY(110vh) translateX(10px) rotate(360deg);opacity:0} }
+        .guirlande { position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse 800px 300px at 20% 0%,rgba(255,60,60,.12) 0%,transparent 70%),radial-gradient(ellipse 600px 250px at 80% 5%,rgba(50,180,50,.12) 0%,transparent 70%),radial-gradient(ellipse 400px 200px at 50% 2%,rgba(255,215,0,.10) 0%,transparent 60%);pointer-events:none;animation:guirlande-pulse 6s ease-in-out infinite; }
+        @keyframes guirlande-pulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+        .skier { position:absolute;font-size:32px;pointer-events:none;animation:ski-descent linear infinite;filter:drop-shadow(2px 3px 5px rgba(0,80,160,.3));transform-origin:center center; }
+        @keyframes ski-descent { 0%{transform:translate(-80px,-60px) rotate(15deg) scaleX(1);opacity:0} 5%{opacity:1} 20%{transform:translate(calc(var(--vx)*.2),calc(var(--vy)*.2)) rotate(20deg) scaleX(1)} 40%{transform:translate(calc(var(--vx)*.4),calc(var(--vy)*.4)) rotate(5deg) scaleX(-1)} 60%{transform:translate(calc(var(--vx)*.6),calc(var(--vy)*.6)) rotate(22deg) scaleX(1)} 80%{transform:translate(calc(var(--vx)*.8),calc(var(--vy)*.8)) rotate(8deg) scaleX(-1)} 95%{opacity:1} 100%{transform:translate(var(--vx),var(--vy)) rotate(15deg) scaleX(1);opacity:0} }
+        .ski-trail { position:absolute;pointer-events:none;animation:trail-fade linear forwards;font-size:12px;opacity:.5; }
+        @keyframes trail-fade { 0%{opacity:.5;transform:scale(1)} 100%{opacity:0;transform:scale(.3)} }
+        .snow-bg { position:absolute;color:white;font-size:14px;opacity:.6;pointer-events:none;animation:snow-drift linear infinite; }
+        @keyframes snow-drift { 0%{transform:translateY(-5vh) translateX(0);opacity:0} 10%{opacity:.6} 50%{transform:translateY(50vh) translateX(15px)} 90%{opacity:.5} 100%{transform:translateY(108vh) translateX(-10px);opacity:0} }
+        .paques-particle { font-size:22px;opacity:.88;animation:paques-swing linear infinite;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15)); }
+        @keyframes paques-swing { 0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0} 10%{opacity:.88} 25%{transform:translateY(25vh) translateX(30px) rotate(20deg)} 50%{transform:translateY(50vh) translateX(-25px) rotate(-15deg)} 75%{transform:translateY(75vh) translateX(20px) rotate(10deg)} 90%{opacity:.88} 100%{transform:translateY(110vh) translateX(-10px) rotate(0deg);opacity:0} }
+        .muguet-particle { font-size:20px;opacity:.85;animation:muguet-float linear infinite;filter:drop-shadow(0 2px 3px rgba(0,80,0,.2)); }
+        @keyframes muguet-float { 0%{transform:translateY(-10vh) translateX(0) rotate(0deg) scale(1);opacity:0} 10%{opacity:.85} 30%{transform:translateY(30vh) translateX(20px) rotate(15deg) scale(1.05)} 60%{transform:translateY(60vh) translateX(-15px) rotate(-10deg) scale(.95)} 90%{opacity:.85} 100%{transform:translateY(110vh) translateX(5px) rotate(5deg) scale(1);opacity:0} }
+        .rentree-particle { font-size:22px;opacity:.88;animation:rentree-fall linear infinite;filter:drop-shadow(1px 2px 4px rgba(0,0,0,.2)); }
+        @keyframes rentree-fall { 0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:0} 10%{opacity:.88} 30%{transform:translateY(30vh) translateX(35px) rotate(30deg)} 60%{transform:translateY(60vh) translateX(-25px) rotate(-20deg)} 90%{opacity:.88} 100%{transform:translateY(110vh) translateX(10px) rotate(10deg);opacity:0} }
+        @keyframes bonneannee-pulse { 0%,100%{text-shadow:0 0 20px rgba(255,215,0,.6),0 0 40px rgba(255,165,0,.4);transform:translateX(-50%) scale(1)} 50%{text-shadow:0 0 30px rgba(255,215,0,.9),0 0 60px rgba(255,165,0,.6);transform:translateX(-50%) scale(1.05)} }
+        @keyframes fw-spark { 0%{transform:translate(0,0);opacity:1} 100%{transform:translate(var(--tx),var(--ty));opacity:0} }
+        @keyframes fw-flash { 0%{opacity:1;transform:scale(1)} 100%{opacity:0;transform:scale(3)} }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Demande de Sortie d'un Salarié</h1>
+            <p>Document généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}</p>
+            ${fichierSortieBase64 ? `<a href="${fichierSortieBase64}" download="${fichierSortieNom}" style="display:inline-block;margin-top:10px;padding:10px 20px;background:#22c55e;color:white;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">📎 Télécharger le document joint</a>` : ''}
+        </div>
+        <div class="content">
+            <div class="section">
+                <div class="section-title">🏢 Société</div>
+                <div class="row"><span class="label">Nom de la société</span><span class="value">${data.societe || '-'}</span></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📄 Rupture du Contrat de Travail</div>
+                <div class="row"><span class="label">Matricule</span><span class="value">${data.matricule || '-'}</span></div>
+                <div class="row"><span class="label">Nom</span><span class="value">${data.nom || '-'}</span></div>
+                <div class="row"><span class="label">Prénom</span><span class="value">${data.prenom || '-'}</span></div>
+                <div class="row"><span class="label">Date de notification</span><span class="value">${formatDate(data.date_notification) || '-'}</span></div>
+                ${data.motif_fin_emploi === 'rupture_conv' ? `<div class="row"><span class="label">Date signature rupture conv.</span><span class="value">${formatDate(data.date_signature_rupture_conv) || '-'}</span></div>` : ''}
+                <div class="row"><span class="label">Motif de fin d'emploi</span><span class="value">${motifFinEmploiValue}</span></div>
+                <div class="row"><span class="label">Motif de la rupture</span><span class="value">${motifRuptureValue}</span></div>
+                <div class="row"><span class="label">Date de fin de contrat</span><span class="value">${formatDate(data.fin_contrat) || '-'}</span></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">⏱️ Préavis</div>
+                <div class="row"><span class="label">Type de préavis</span><span class="value">${preavisTypeMap[data.preavis_type] || '-'}</span></div>
+                ${preavisDates ? `<div class="row"><span class="label">Période</span><span class="value">${preavisDates}</span></div>` : ''}
+            </div>
+
+            ${data.commentaires ? `
+            <div class="section">
+                <div class="section-title">💬 Commentaires</div>
+                <div class="value" style="white-space: pre-wrap;">${data.commentaires}</div>
+            </div>
+            ` : ''}
+        </div>
+        <div class="footer">
+            Document généré automatiquement - EBP
+        </div>
+    </div>
+    <script>
+    (function() {
+        function initSeasonalAnimation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const testMonth = urlParams.get('mois');
+            const month = testMonth ? parseInt(testMonth) : new Date().getMonth() + 1;
+            const bg = document.querySelector('.bg-animation');
+            if (!bg) return;
+            let particleType, particleContent, particleCount, animDuration;
+            if (month === 12) {
+                bg.style.background = 'linear-gradient(160deg,#1a3a2a 0%,#2a5a3a 30%,#3a2a50 65%,#2a1a40 100%)';
+                document.body.style.background = bg.style.background;
+                const g = document.createElement('div'); g.className = 'guirlande'; bg.appendChild(g);
+                particleType = 'noel-particle'; particleContent = ['🎄','🎅','⭐','🦌','🎁','🔔','🌟','❄','🧦','🕯️']; particleCount = 35; animDuration = [7,14];
+            } else if (month === 1) {
+                bg.style.background = 'linear-gradient(160deg,#0a0a2e 0%,#1a1a5e 30%,#2d1b69 60%,#1a0a3e 100%)';
+                document.body.style.background = bg.style.background;
+                function fw() { const colors=['#FFD700','#FF6B6B','#4ECDC4','#FF9F43','#A29BFE','#FD79A8','#00CEC9','#FDCB6E','#E17055','#74B9FF']; const cx=10+Math.random()*80,cy=5+Math.random()*50,color=colors[Math.floor(Math.random()*colors.length)],n=16+Math.floor(Math.random()*12); for(let i=0;i<n;i++){const s=document.createElement('div'),a=(i/n)*360,d=60+Math.random()*80,r=a*Math.PI/180,tx=Math.cos(r)*d,ty=Math.sin(r)*d; s.style.cssText='position:absolute;left:'+cx+'%;top:'+cy+'%;width:'+(3+Math.random()*3)+'px;height:'+(3+Math.random()*3)+'px;background:'+color+';border-radius:50%;box-shadow:0 0 6px 2px '+color+';pointer-events:none;animation:fw-spark 1.2s ease-out forwards;--tx:'+tx+'px;--ty:'+ty+'px;'; bg.appendChild(s); setTimeout(()=>s.remove(),1400);} const f=document.createElement('div'); f.style.cssText='position:absolute;left:calc('+cx+'% - 8px);top:calc('+cy+'% - 8px);width:16px;height:16px;background:white;border-radius:50%;box-shadow:0 0 20px 8px white;pointer-events:none;animation:fw-flash 0.4s ease-out forwards;'; bg.appendChild(f); setTimeout(()=>f.remove(),500); } fw(); setInterval(fw,1200+Math.random()*800);
+                particleType='snowflake'; particleContent=['🎆','🎇','✨','🥂','🍾','⭐','🌟','💫','🎊','🎉']; particleCount=25; animDuration=[6,12];
+            } else if (month === 2) {
+                bg.style.background = 'linear-gradient(to bottom,#b8d8f8 0%,#ddeeff 40%,#f0f8ff 75%,#e8f4fd 100%)';
+                document.body.style.background = bg.style.background;
+                const sol=document.createElement('div'); sol.style.cssText='position:absolute;top:40px;right:80px;width:70px;height:70px;background:radial-gradient(circle,#fffde0 0%,#ffe066 50%,transparent 80%);border-radius:50%;box-shadow:0 0 40px 15px rgba(255,230,50,.45);animation:sun-pulse 5s ease-in-out infinite;pointer-events:none;'; bg.appendChild(sol);
+                for(let s=0;s<18;s++){const sn=document.createElement('div');sn.className='snow-bg';sn.textContent=['❄','❅','❆'][Math.floor(Math.random()*3)];sn.style.left=Math.random()*100+'%';sn.style.animationDuration=(9+Math.random()*10)+'s';sn.style.animationDelay=(Math.random()*12)+'s';bg.appendChild(sn);}
+                function lancer(){const sk=document.createElement('div');sk.className='skier';sk.style.left=Math.random()*60+'%';sk.style.top='0px';const vx=(30+Math.random()*40)*(Math.random()<.5?1:-1),vy=window.innerHeight*(1.2+Math.random()*.3);sk.style.setProperty('--vx',vx+'px');sk.style.setProperty('--vy',vy+'px');const dur=5+Math.random()*5;sk.style.animationDuration=dur+'s';sk.style.animationDelay='0s';sk.textContent=Math.random()<.7?'⛷️':'🏂';bg.appendChild(sk);const ti=setInterval(()=>{const trail=document.createElement('div');trail.className='ski-trail';trail.textContent='·';trail.style.color='rgba(255,255,255,.8)';const r=sk.getBoundingClientRect(),br=bg.getBoundingClientRect();trail.style.left=(r.left-br.left+r.width/2)+'px';trail.style.top=(r.top-br.top+r.height/2)+'px';trail.style.animationDuration='.8s';bg.appendChild(trail);setTimeout(()=>trail.remove(),900);},120);setTimeout(()=>{clearInterval(ti);sk.remove();setTimeout(lancer,Math.random()*2000);},(dur+.5)*1000);}
+                setTimeout(lancer,300);setTimeout(lancer,1800);setTimeout(lancer,3500); return;
+            } else if (month === 3) {
+                bg.style.background = 'linear-gradient(to bottom,#87CEEB 0%,#E0F6FF 100%)';
+                particleType='petal'; particleContent=['🌸','🌺','🌼','🌻','🌷']; particleCount=22; animDuration=[9,16];
+                function buildH(fromLeft){const w=document.createElement('div');w.className='hirondelle';w.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 28" width="65" height="28"><g><path d="M44,13 C34,6 18,3 2,6 C12,9 26,11 38,14 Z" fill="#1e2340"/></g><g><path d="M46,13 C56,6 72,3 88,6 C78,9 64,11 52,14 Z" fill="#1e2340"/></g><ellipse cx="45" cy="15" rx="12" ry="4.5" fill="#1e2340"/><ellipse cx="45" cy="16" rx="7" ry="2.5" fill="#ddd8cc"/><ellipse cx="56" cy="13" rx="5" ry="4.5" fill="#1e2340"/><ellipse cx="55" cy="14.5" rx="3" ry="2" fill="#b84a20"/><path d="M61,12.5 L67,13" stroke="#333" stroke-width="1.4" stroke-linecap="round"/><path d="M34,15 Q24,12 14,10" stroke="#1e2340" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M34,15 Q24,18 14,20" stroke="#1e2340" stroke-width="2" fill="none" stroke-linecap="round"/><\/svg>';if(!fromLeft)w.querySelector('svg').style.transform='scaleX(-1)';return w;}
+                function lancerH(){const fl=Math.random()<.5,W=window.innerWidth,H=window.innerHeight,sc=.55+Math.random()*.7,bY=(0.05+Math.random()*.55)*H,aY=18+Math.random()*28,fr=.6+Math.random()*.8,sp=80+Math.random()*60,h=buildH(fl);h.style.transformOrigin='top left';h.style.transform='scale('+sc+')';h.style.opacity=(0.6+sc*.25).toFixed(2);bg.appendChild(h);const sX=fl?-(130*sc):W+10,dir=fl?1:-1,tot=W+160*sc,dur=(tot/sp)*1000,t0=performance.now();function step(now){const el=now-t0,pr=el/dur;if(pr>=1){h.remove();setTimeout(lancerH,400+Math.random()*1200);return;}const x=sX+dir*pr*tot,y=bY+Math.sin(pr*Math.PI*2*fr)*aY,dy=Math.cos(pr*Math.PI*2*fr)*aY*.015,tilt=Math.max(-12,Math.min(12,dy*80));h.style.left=x+'px';h.style.top=y+'px';h.style.transform='scale('+sc+') rotate('+(fl?tilt:-tilt)+'deg)';requestAnimationFrame(step);}requestAnimationFrame(step);}
+                [0,800,1800,3200,4800].forEach(d=>setTimeout(lancerH,d));
+            } else if (month === 4) {
+                bg.style.background = 'linear-gradient(to bottom,#a8e6cf 0%,#d4f1c0 40%,#fffbe6 100%)';
+                document.body.style.background = bg.style.background;
+                particleType='paques-particle'; particleContent=['🔔','🥚','🐣','🌷','🌼','🐰','🍫','🌿']; particleCount=28; animDuration=[9,15];
+            } else if (month === 5) {
+                bg.style.background = 'linear-gradient(to bottom,#c8f0c8 0%,#e8f8e0 50%,#f5fff0 100%)';
+                document.body.style.background = bg.style.background;
+                particleType='muguet-particle'; particleContent=['🌿','☘️','🌱','💮','🤍','💮','🌿','💮']; particleCount=30; animDuration=[10,18];
+            } else if (month >= 6 && month <= 8) {
+                bg.style.background = 'linear-gradient(to bottom,#87CEEB 0%,#E0F6FF 100%)';
+                const sun=document.createElement('div');sun.className='summer-sun';bg.appendChild(sun); return;
+            } else if (month === 9) {
+                bg.style.background = 'linear-gradient(to bottom,#ffeaa0 0%,#ffe066 30%,#fff8dc 70%,#fffacd 100%)';
+                document.body.style.background = bg.style.background;
+                particleType='rentree-particle'; particleContent=['📚','✏️','🎒','📖','🖊️','📐','📏','🖍️','📓']; particleCount=25; animDuration=[9,16];
+            } else if (month === 10 || month === 11) {
+                bg.style.background = 'linear-gradient(to bottom,#FF8C42 0%,#FFB366 50%,#FDD5B1 100%)';
+                particleType='leaf'; particleContent=['🍂','🍁']; particleCount=25; animDuration=[10,18];
+            } else return;
+            for(let i=0;i<particleCount;i++){const p=document.createElement('div');p.className='seasonal-particle '+particleType;p.style.left=Math.random()*100+'%';const d=animDuration[0]+Math.random()*(animDuration[1]-animDuration[0]);p.style.animationDuration=d+'s';p.style.animationDelay=Math.random()*d+'s';if(particleContent)p.textContent=particleContent[Math.floor(Math.random()*particleContent.length)];p.style.transform='scale('+(0.7+Math.random()*.6)+')';bg.appendChild(p);}
+            if(month===1){const ba=document.createElement('div'),yr=new Date().getFullYear();ba.style.cssText='position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:22px;font-weight:800;letter-spacing:3px;color:rgba(255,215,0,.85);text-shadow:0 0 20px rgba(255,215,0,.6),0 0 40px rgba(255,165,0,.4);pointer-events:none;white-space:nowrap;animation:bonneannee-pulse 3s ease-in-out infinite;';ba.textContent='✨ Bonne Année '+yr+' ✨';bg.appendChild(ba);}
+            setInterval(()=>{if(Math.random()<.3){const s=document.createElement('div');s.className='shooting-star';s.style.top=Math.random()*30+'%';s.style.left=Math.random()*50+'%';bg.appendChild(s);setTimeout(()=>s.remove(),2000);}},15000+Math.random()*15000);
+        }
+        initSeasonalAnimation();
+    })();
+    <\/script>
+</body>
+</html>`;
+
+            // Télécharger le fichier
+            const blob = new Blob([outputHTML], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            const generatedFileName = `sortie_salarie_${(data.nom || 'nouveau').toUpperCase()}_${data.prenom || ''}_${new Date().toLocaleDateString('fr-FR').replace(/\//g, '-')}.html`;
+            link.download = generatedFileName;
+            const filenameEl = document.getElementById('success-filename');
+            if (filenameEl) filenameEl.textContent = '📄 ' + generatedFileName;
+            link.click();
+
+            // Afficher l'overlay de succès
+            document.getElementById('successOverlay').classList.add('active');
+        }
+
+        function resetForm() {
+            document.getElementById('sortieForm').reset();
+            // Désactiver tous les champs de date de préavis
+            document.querySelectorAll('.checkbox-item.with-dates input[type="date"]').forEach(input => {
+                input.disabled = true;
+            });
+            // Masquer les champs "autre"
+            document.getElementById('motif_fin_emploi_autre_group').style.display = 'none';
+            document.getElementById('motif_rupture_autre_group').style.display = 'none';
+            // Masquer la date signature rupture conventionnelle
+            document.getElementById('date_signature_rupture_conv_group').style.display = 'none';
+        }
+
+        function closeSuccess() {
+            document.getElementById('successOverlay').classList.remove('active');
+            resetForm();
+            supprimerFichierSortie();
+        }
+
+        // Copier l'adresse email dans le presse-papier
+        function copierEmail(btn) {
+            navigator.clipboard.writeText('contact.productionpaye@ebp.com').then(function() {
+                btn.textContent = '✅ Copié !';
+                btn.style.borderColor = '#86efac';
+                btn.style.color = '#166534';
+                setTimeout(function() {
+                    btn.textContent = '📋 Copier';
+                    btn.style.borderColor = '#d1d5db';
+                    btn.style.color = '#374151';
+                }, 2000);
+            });
+        }
+
+        // ============================================================
+        // 📎 GESTION PIÈCE JOINTE DOCUMENT DE SORTIE
+        // ============================================================
+        let fichierSortieBase64 = null;
+        let fichierSortieNom = null;
+
+        function chargerFichierSortie(input) {
+            if (!input.files || !input.files[0]) return;
+            _traiterFichierSortie(input.files[0]);
+        }
+
+        function _traiterFichierSortie(fichier) {
+            const erreur = document.getElementById('fichier_sortie_erreur');
+            const info = document.getElementById('fichier_sortie_info');
+            erreur.style.display = 'none';
+            if (fichier.size > 10 * 1024 * 1024) {
+                erreur.textContent = '⚠️ Le fichier est trop volumineux (max 10 Mo).';
+                erreur.style.display = 'block';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                fichierSortieBase64 = e.target.result;
+                fichierSortieNom = fichier.name;
+                document.getElementById('fichier_sortie_nom').textContent = fichier.name;
+                const ko = (fichier.size / 1024).toFixed(0);
+                document.getElementById('fichier_sortie_poids').textContent = ko > 1024 ? (ko/1024).toFixed(1) + ' Mo' : ko + ' Ko';
+                info.style.display = 'flex';
+                const dz = document.getElementById('dropzone_sortie');
+                dz.style.borderColor = '#22c55e';
+                dz.style.background = '#f0fdf4';
+            };
+            reader.readAsDataURL(fichier);
+        }
+
+        function supprimerFichierSortie() {
+            fichierSortieBase64 = null;
+            fichierSortieNom = null;
+            const input = document.getElementById('fichier_sortie');
+            if (input) input.value = '';
+            const info = document.getElementById('fichier_sortie_info');
+            if (info) info.style.display = 'none';
+            const dz = document.getElementById('dropzone_sortie');
+            if (dz) { dz.style.borderColor = '#d1d5db'; dz.style.background = '#f9fafb'; }
+        }
+
+        // Drag & drop
+        document.addEventListener('DOMContentLoaded', function() {
+            const dz = document.getElementById('dropzone_sortie');
+            if (!dz) return;
+            dz.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dz.style.borderColor = '#0046fe';
+                dz.style.background = '#eff6ff';
+            });
+            dz.addEventListener('dragleave', function() {
+                dz.style.borderColor = fichierSortieBase64 ? '#22c55e' : '#d1d5db';
+                dz.style.background = fichierSortieBase64 ? '#f0fdf4' : '#f9fafb';
+            });
+            dz.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    _traiterFichierSortie(e.dataTransfer.files[0]);
+                }
+            });
+        });
+
+        // Pour tester : ajoutez ?mois=12 dans l'URL (1=janvier, 12=décembre)
+        function initSeasonalAnimation() {
+            // Récupérer le mois (de l'URL ou de la date du PC)
+            const urlParams = new URLSearchParams(window.location.search);
+            const testMonth = urlParams.get('mois');
+            const month = testMonth ? parseInt(testMonth) : new Date().getMonth() + 1;
+            
+            const bgAnimation = document.querySelector('.bg-animation');
+            if (!bgAnimation) return;
+            
+            let particleType, particleContent, particleCount, animationDuration;
+
+            // ─────────────────────────────────────────────
+            // 🎄 DÉCEMBRE : Noël festif
+            // ─────────────────────────────────────────────
+            if (month === 12) {
+                bgAnimation.style.background = 'linear-gradient(160deg, #1a3a2a 0%, #2a5a3a 30%, #3a2a50 65%, #2a1a40 100%)';
+                document.body.style.background = 'linear-gradient(160deg, #1a3a2a 0%, #2a5a3a 30%, #3a2a50 65%, #2a1a40 100%)';
+
+                // Guirlandes lumineuses
+                const guirlande = document.createElement('div');
+                guirlande.className = 'guirlande';
+                bgAnimation.appendChild(guirlande);
+
+                particleType = 'noel-particle';
+                particleContent = ['🎄','🎅','⭐','🦌','🎁','🔔','🌟','❄','🧦','🕯️'];
+                particleCount = 35;
+                animationDuration = [7, 14];
+
+            // ─────────────────────────────────────────────
+            // ─────────────────────────────────────────────
+            // 🎆 JANVIER : Nouvel An festif !
+            // ─────────────────────────────────────────────
+            } else if (month === 1) {
+                bgAnimation.style.background = 'linear-gradient(160deg, #0a0a2e 0%, #1a1a5e 30%, #2d1b69 60%, #1a0a3e 100%)';
+                document.body.style.background = 'linear-gradient(160deg, #0a0a2e 0%, #1a1a5e 30%, #2d1b69 60%, #1a0a3e 100%)';
+
+                function createFirework() {
+                    const colors = ['#FFD700','#FF6B6B','#4ECDC4','#FF9F43','#A29BFE','#FD79A8','#00CEC9','#FDCB6E','#E17055','#74B9FF'];
+                    const cx = 10 + Math.random() * 80;
+                    const cy = 5 + Math.random() * 50;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const pCount = 16 + Math.floor(Math.random() * 12);
+                    for (let i = 0; i < pCount; i++) {
+                        const spark = document.createElement('div');
+                        const angle = (i / pCount) * 360;
+                        const dist = 60 + Math.random() * 80;
+                        const rad = angle * Math.PI / 180;
+                        const tx = Math.cos(rad) * dist;
+                        const ty = Math.sin(rad) * dist;
+                        spark.style.cssText = `position:absolute;left:${cx}%;top:${cy}%;width:${3+Math.random()*3}px;height:${3+Math.random()*3}px;background:${color};border-radius:50%;box-shadow:0 0 6px 2px ${color};pointer-events:none;animation:fw-spark 1.2s ease-out forwards;--tx:${tx}px;--ty:${ty}px;`;
+                        bgAnimation.appendChild(spark);
+                        setTimeout(() => spark.remove(), 1400);
+                    }
+                    const flash = document.createElement('div');
+                    flash.style.cssText = `position:absolute;left:calc(${cx}% - 8px);top:calc(${cy}% - 8px);width:16px;height:16px;background:white;border-radius:50%;box-shadow:0 0 20px 8px white;pointer-events:none;animation:fw-flash 0.4s ease-out forwards;`;
+                    bgAnimation.appendChild(flash);
+                    setTimeout(() => flash.remove(), 500);
+                }
+                createFirework();
+                setInterval(createFirework, 1200 + Math.random() * 800);
+
+                particleType = 'snowflake';
+                particleContent = ['🎆','🎇','✨','🥂','🍾','⭐','🌟','💫','🎊','🎉'];
+                particleCount = 25;
+                animationDuration = [6, 12];
+
+            // ─────────────────────────────────────────────
+            // ⛷️ FÉVRIER : Ski & montagne enneigée
+            // ─────────────────────────────────────────────
+            } else if (month === 2) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #b8d8f8 0%, #ddeeff 40%, #f0f8ff 75%, #e8f4fd 100%)';
+                document.body.style.background = 'linear-gradient(to bottom, #b8d8f8 0%, #ddeeff 40%, #f0f8ff 75%, #e8f4fd 100%)';
+
+                // Soleil de station
+                const soleilSki = document.createElement('div');
+                soleilSki.style.cssText = 'position:absolute;top:40px;right:80px;width:70px;height:70px;background:radial-gradient(circle,#fffde0 0%,#ffe066 50%,transparent 80%);border-radius:50%;box-shadow:0 0 40px 15px rgba(255,230,50,0.45);animation:sun-pulse 5s ease-in-out infinite;pointer-events:none;';
+                bgAnimation.appendChild(soleilSki);
+
+                // Flocons légers en fond
+                for (let s = 0; s < 18; s++) {
+                    const snow = document.createElement('div');
+                    snow.className = 'snow-bg';
+                    snow.textContent = ['❄','❅','❆'][Math.floor(Math.random()*3)];
+                    snow.style.left = Math.random() * 100 + '%';
+                    snow.style.animationDuration = (9 + Math.random() * 10) + 's';
+                    snow.style.animationDelay = (Math.random() * 12) + 's';
+                    bgAnimation.appendChild(snow);
+                }
+
+                // Skieurs qui dévalent la pente en diagonale
+                function lancerSkieur() {
+                    const skier = document.createElement('div');
+                    skier.className = 'skier';
+                    // Départ en haut : position X aléatoire sur les 2/3 gauches
+                    const startX = Math.random() * 60; // % écran
+                    skier.style.left = startX + '%';
+                    skier.style.top = '0px';
+
+                    // Distance de descente diagonale (plus grande que l'écran)
+                    const vx = (30 + Math.random() * 40) * (Math.random() < 0.5 ? 1 : -1);
+                    const vy = window.innerHeight * (1.2 + Math.random() * 0.3);
+                    skier.style.setProperty('--vx', vx + 'px');
+                    skier.style.setProperty('--vy', vy + 'px');
+
+                    const duration = 5 + Math.random() * 5; // 5 à 10s
+                    skier.style.animationDuration = duration + 's';
+                    skier.style.animationDelay = '0s';
+
+                    // Choisir : skieur ou snowboardeur
+                    skier.textContent = Math.random() < 0.7 ? '⛷️' : '🏂';
+
+                    bgAnimation.appendChild(skier);
+
+                    // Traîne de neige derrière pendant la descente
+                    const trailInterval = setInterval(() => {
+                        const trail = document.createElement('div');
+                        trail.className = 'ski-trail';
+                        trail.textContent = '·';
+                        trail.style.color = 'rgba(255,255,255,0.8)';
+                        // Position courante estimée selon progression
+                        const rect = skier.getBoundingClientRect();
+                        const bgRect = bgAnimation.getBoundingClientRect();
+                        trail.style.left = (rect.left - bgRect.left + rect.width / 2) + 'px';
+                        trail.style.top  = (rect.top  - bgRect.top  + rect.height / 2) + 'px';
+                        trail.style.animationDuration = '0.8s';
+                        bgAnimation.appendChild(trail);
+                        setTimeout(() => trail.remove(), 900);
+                    }, 120);
+
+                    // Nettoyer après la descente + relancer
+                    setTimeout(() => {
+                        clearInterval(trailInterval);
+                        skier.remove();
+                        // Relancer un nouveau skieur après un court délai
+                        setTimeout(lancerSkieur, Math.random() * 2000);
+                    }, (duration + 0.5) * 1000);
+                }
+
+                // Lancer 3 skieurs en décalé au départ
+                setTimeout(lancerSkieur, 300);
+                setTimeout(lancerSkieur, 1800);
+                setTimeout(lancerSkieur, 3500);
+
+                // Pas de particleType générique : on gère tout manuellement ci-dessus
+                return;
+
+            // ─────────────────────────────────────────────
+            // 🌸 MARS : Pétales + Hirondelles SVG papier découpé
+            // ─────────────────────────────────────────────
+            } else if (month === 3) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 100%)';
+
+                // Pétales classiques
+                particleType = 'petal';
+                particleContent = ['🌸', '🌺', '🌼', '🌻', '🌷'];
+                particleCount = 22;
+                animationDuration = [9, 16];
+
+                // ── Hirondelles SVG papier découpé ─────────────
+                function buildHirondelle(fromLeft) {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'hirondelle';
+
+                    // SVG repensé : vraie silhouette hirondelle avec queue fourchue nette
+                    // Le bec pointe vers la droite par défaut
+                    wrap.innerHTML =
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 28" width="65" height="28">' +
+
+                        // --- Aile gauche ---
+                        '<g class="aile-g">' +
+                        '<path d="M44,13 C34,6 18,3 2,6 C12,9 26,11 38,14 Z" fill="#1e2340"/>' +
+                        '</g>' +
+
+                        // --- Aile droite ---
+                        '<g class="aile-d">' +
+                        '<path d="M46,13 C56,6 72,3 88,6 C78,9 64,11 52,14 Z" fill="#1e2340"/>' +
+                        '</g>' +
+
+                        // --- Corps ---
+                        '<ellipse cx="45" cy="15" rx="12" ry="4.5" fill="#1e2340"/>' +
+
+                        // --- Ventre clair ---
+                        '<ellipse cx="45" cy="16" rx="7" ry="2.5" fill="#ddd8cc"/>' +
+
+                        // --- Tête ---
+                        '<ellipse cx="56" cy="13" rx="5" ry="4.5" fill="#1e2340"/>' +
+
+                        // --- Gorge rousse ---
+                        '<ellipse cx="55" cy="14.5" rx="3" ry="2" fill="#b84a20"/>' +
+
+                        // --- Bec ---
+                        '<path d="M61,12.5 L67,13" stroke="#333" stroke-width="1.4" stroke-linecap="round"/>' +
+
+                        // --- Queue fourchue horizontale (même niveau que le corps) ---
+                        '<path d="M34,15 Q24,12 14,10" stroke="#1e2340" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+                        '<path d="M34,15 Q24,18 14,20" stroke="#1e2340" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+
+                        '</svg>';
+
+                    // Retourner si vol droite → gauche
+                    if (!fromLeft) {
+                        wrap.querySelector('svg').style.transform = 'scaleX(-1)';
+                    }
+
+                    return wrap;
+                }
+
+                function lancerHirondelle() {
+                    const fromLeft = Math.random() < 0.5;
+                    const W = window.innerWidth;
+                    const H = window.innerHeight;
+
+                    const scale = 0.55 + Math.random() * 0.7;
+                    const baseY  = (0.05 + Math.random() * 0.55) * H; // hauteur de vol
+                    const ampY   = 18 + Math.random() * 28;            // amplitude ondulation
+                    const freq   = 0.6 + Math.random() * 0.8;          // fréquence ondulation
+                    const speed  = 80 + Math.random() * 60;            // px/s
+
+                    const h = buildHirondelle(fromLeft);
+                    h.style.transformOrigin = 'top left';
+                    h.style.transform = 'scale(' + scale + ')';
+                    h.style.opacity   = (0.6 + scale * 0.25).toFixed(2);
+                    bgAnimation.appendChild(h);
+
+                    const startX  = fromLeft ? -(130 * scale) : W + 10;
+                    const dir     = fromLeft ? 1 : -1;
+                    const totalDist = W + 160 * scale;
+                    const duration  = (totalDist / speed) * 1000;
+
+                    const t0 = performance.now();
+
+                    function step(now) {
+                        const elapsed = now - t0;
+                        const progress = elapsed / duration;
+
+                        if (progress >= 1) {
+                            h.remove();
+                            setTimeout(lancerHirondelle, 400 + Math.random() * 1200);
+                            return;
+                        }
+
+                        const x = startX + dir * progress * totalDist;
+                        // Ondulation sinusoïdale douce pour le Y
+                        const y = baseY + Math.sin(progress * Math.PI * 2 * freq) * ampY;
+
+                        // Légère inclinaison selon la montée/descente
+                        const dy = Math.cos(progress * Math.PI * 2 * freq) * ampY * 0.015;
+                        const tilt = Math.max(-12, Math.min(12, dy * 80));
+
+                        h.style.left = x + 'px';
+                        h.style.top  = y + 'px';
+                        h.style.transform = 'scale(' + scale + ') rotate(' + (fromLeft ? tilt : -tilt) + 'deg)';
+
+                        requestAnimationFrame(step);
+                    }
+                    requestAnimationFrame(step);
+                }
+
+                // Lancer 5 hirondelles en décalé
+                [0, 800, 1800, 3200, 4800].forEach(function(delay) {
+                    setTimeout(lancerHirondelle, delay);
+                });
+
+            // ─────────────────────────────────────────────
+            // 🔔 AVRIL : Pâques
+            // ─────────────────────────────────────────────
+            } else if (month === 4) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #a8e6cf 0%, #d4f1c0 40%, #fffbe6 100%)';
+                document.body.style.background = 'linear-gradient(to bottom, #a8e6cf 0%, #d4f1c0 40%, #fffbe6 100%)';
+
+                particleType = 'paques-particle';
+                particleContent = ['🔔','🥚','🐣','🌷','🌼','🐰','🍫','🌿'];
+                particleCount = 28;
+                animationDuration = [9, 15];
+
+            // ─────────────────────────────────────────────
+            // 🌿 MAI : Muguet
+            // ─────────────────────────────────────────────
+            } else if (month === 5) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #c8f0c8 0%, #e8f8e0 50%, #f5fff0 100%)';
+                document.body.style.background = 'linear-gradient(to bottom, #c8f0c8 0%, #e8f8e0 50%, #f5fff0 100%)';
+
+                particleType = 'muguet-particle';
+                particleContent = ['🌿','☘️','🌱','💮','🤍','💮','🌿','💮'];
+                particleCount = 30;
+                animationDuration = [10, 18];
+
+            // ─────────────────────────────────────────────
+            // 🏖️ JUIN-AOÛT : Été ensoleillé (inchangé)
+            // ─────────────────────────────────────────────
+            } else if (month >= 6 && month <= 8) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 100%)';
+                const sun = document.createElement('div');
+                sun.className = 'summer-sun';
+                bgAnimation.appendChild(sun);
+                return;
+
+            // ─────────────────────────────────────────────
+            // 📚 SEPTEMBRE : Rentrée scolaire
+            // ─────────────────────────────────────────────
+            } else if (month === 9) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #ffeaa0 0%, #ffe066 30%, #fff8dc 70%, #fffacd 100%)';
+                document.body.style.background = 'linear-gradient(to bottom, #ffeaa0 0%, #ffe066 30%, #fff8dc 70%, #fffacd 100%)';
+
+                particleType = 'rentree-particle';
+                particleContent = ['📚','✏️','🎒','📖','🖊️','📐','📏','🖍️','📓'];
+                particleCount = 25;
+                animationDuration = [9, 16];
+
+            // ─────────────────────────────────────────────
+            // 🍂 OCTOBRE-NOVEMBRE : Automne (inchangé)
+            // ─────────────────────────────────────────────
+            } else if (month === 10 || month === 11) {
+                bgAnimation.style.background = 'linear-gradient(to bottom, #FF8C42 0%, #FFB366 50%, #FDD5B1 100%)';
+                particleType = 'leaf';
+                particleContent = ['🍂', '🍁'];
+                particleCount = 25;
+                animationDuration = [10, 18];
+
+            } else {
+                return;
+            }
+            
+            // Créer les particules
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = `seasonal-particle ${particleType}`;
+                particle.style.left = Math.random() * 100 + '%';
+                const duration = animationDuration[0] + Math.random() * (animationDuration[1] - animationDuration[0]);
+                particle.style.animationDuration = duration + 's';
+                particle.style.animationDelay = Math.random() * duration + 's';
+                if (particleContent) {
+                    particle.textContent = particleContent[Math.floor(Math.random() * particleContent.length)];
+                }
+                const scale = 0.7 + Math.random() * 0.6;
+                particle.style.transform = `scale(${scale})`;
+                bgAnimation.appendChild(particle);
+            }
+            
+            // ✨ EFFETS SPÉCIAUX OCCASIONNELS
+            addSpecialEffects(bgAnimation, month);
+        }
+        
+        // ✨ Fonction pour ajouter des effets spéciaux rares
+        function addSpecialEffects(container, month) {
+            if (month === 1) {
+                const bonneAnnee = document.createElement('div');
+                const annee = new Date().getFullYear();
+                bonneAnnee.style.cssText = `position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:22px;font-weight:800;letter-spacing:3px;color:rgba(255,215,0,0.85);text-shadow:0 0 20px rgba(255,215,0,0.6),0 0 40px rgba(255,165,0,0.4);pointer-events:none;white-space:nowrap;animation:bonneannee-pulse 3s ease-in-out infinite;`;
+                bonneAnnee.textContent = `✨ Bonne Année ${annee} ✨`;
+                container.appendChild(bonneAnnee);
+            }
+            
+            // Étoile filante occasionnelle (toutes les 15-30 secondes)
+            setInterval(() => {
+                if (Math.random() < 0.3) { // 30% de chance
+                    createShootingStar(container);
+                }
+            }, 15000 + Math.random() * 15000);
+            
+            // Note : Pas de sparkles en été, on a déjà le soleil + papillons
+        }
+        
+        // Créer une étoile filante
+        function createShootingStar(container) {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.top = Math.random() * 30 + '%';
+            star.style.left = Math.random() * 50 + '%';
+            container.appendChild(star);
+            
+            // Supprimer après l'animation
+            setTimeout(() => {
+                star.remove();
+            }, 2000);
+        }
+        
+        // Créer une particule scintillante
+        function createSparkle(container) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.top = Math.random() * 80 + 10 + '%';
+            sparkle.style.left = Math.random() * 90 + 5 + '%';
+            container.appendChild(sparkle);
+            
+            // Supprimer et recréer
+            setTimeout(() => {
+                sparkle.remove();
+                if (new Date().getMonth() + 1 >= 6 && new Date().getMonth() + 1 <= 8) {
+                    setTimeout(() => createSparkle(container), Math.random() * 3000);
+                }
+            }, 2000);
+        }
+        
+        // Initialiser les animations saisonnières au chargement
+        initSeasonalAnimation();
+    </script>
+</body>
+</html>
